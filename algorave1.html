@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Algoravix V1</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+    <div 
+        tabindex="0"
+        style="background:black; height:100%;"
+    >
+    <textarea
+        id="hat_editor"
+        onkeyup="updateHats()"
+    >1</textarea>
+    <br>
+      <textarea
+        id="sn_editor"
+        onkeyup="updateSnare()"
+    >1</textarea>
+
+    </div>
+
+<script>
+
+var audio_context = window.AudioContext || window.webkitAudioContext;
+var con = new audio_context();
+
+
+var hat;
+var snare; 
+
+var hat_seq = [1,0,1,0];
+document.getElementById('hat_editor').value = hat_seq.join(',')
+var sn_seq = [0,1,1,1];
+document.getElementById('sn_editor').value = sn_seq.join(',')
+
+var step = -1;
+var interval = 0.125;
+
+// Sounds downloaded from the project : https://github.com/tidalcycles/Dirt-Samples
+var path_sounds = '../sounds/';
+
+loadSample(path_sounds + '808/CB.WAV', function (buffer){
+    hat = buffer; 
+});
+loadSample(path_sounds + '808/CH.WAV', function (buffer){
+    snare = buffer; 
+});
+
+
+function  updateHats(){
+    var text = document.getElementById('hat_editor');
+    hat_seq = text.value.split(',');
+}
+
+function  updateSnare(){
+    var text = document.getElementById('sn_editor');
+    sn_seq = text.value.split(',');
+}
+
+
+
+function playSound(buffer, time){
+    var player = con.createBufferSource();
+    player.buffer = buffer;
+    player.loop = false;
+    player.connect(con.destination);  
+    player.start(time); 
+}
+
+// this code will execute all "wait_time" ms 
+// and schedule a load of drum triggers on the clock
+// each time, remembering where it scheduled to in the future
+// so it does not repeat anything
+var wait_time = 0.5;
+var alarm_clock = false;  // réveil
+
+setInterval(function(){
+    var now = con.currentTime;
+    console.log(now);
+    var max_future_time = now + (wait_time * 1.5);
+    console.log(max_future_time);
+    if (alarm_clock && alarm_clock > now) { // already scheduled up to this point
+        now = alarm_clock;
+    }
+    
+    while (now <= max_future_time){
+        step +=1; 
+        if (hat_seq[step % hat_seq.length] > Math.random()){
+    //   if (hat_seq[step % hat_seq.length] == 1){
+            playSound(hat, now);
+        }
+       if (sn_seq[step % sn_seq.length] > Math.random()){
+   //     if (sn_seq[step % sn_seq.length] == 1){
+            playSound(snare, now);
+        }
+     
+        now += interval;
+    }
+    alarm_clock = now;
+    
+}, wait_time*1000);
+
+
+function loadSample(url, callback){
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'arraybuffer';
+    request.onload = function(){
+        var audioData = request.response;
+        con.decodeAudioData(audioData, function(buffer) {
+            console.log(buffer);
+            callback(buffer);
+        });
+    };
+    request.send();
+}
+
+    
+</script>
+    </body>
+</html>

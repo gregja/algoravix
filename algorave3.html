@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Algoravix V3</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css" />
+        <style>
+            body, h1 {
+                background: #009688;
+            }
+            #beatbox {
+                background:silver; margin-left:10px; height:100%; width:40%;
+            }
+            #beatbox textarea {
+                height: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Algoravix V3</h1>
+    <div id="beatbox" tabindex="0" class="w3-container w3-teal"></div>
+    <div>
+      <a href="https://github.com/gregja/algoravix" target="_blank">Documentation and source code</a>
+    </div>
+    <script src="beatbox3.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", myBeatBox, false);
+    </script>
+    </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Algoravix V2</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+    <div id="beatbox"
+        tabindex="0"
+        style="background:grey; height:100%;"
+    >
+    <label>
+        <textarea
+            data-beatbox-instr="bass" data-beatbox-sound="bass1/18091__daven__16-sb-bass-hit-c.wav"
+            >1,0,0,0</textarea>Bass
+    </label>
+    <br>
+    <label>
+        <textarea 
+            data-beatbox-instr="snare" data-beatbox-sound="808/CH.WAV"
+            >0,1,0,1</textarea>Snare
+    </label>
+    <br>
+    <label>
+        <textarea 
+            data-beatbox-instr="Clap" data-beatbox-sound="808/CP.WAV"
+            >0,0,0,1</textarea>Clap
+    </label>
+    <br>
+    <label>
+        <textarea 
+            data-beatbox-instr="Erk123" data-beatbox-sound="erk/000_123.wav"
+            >0,0,0,0</textarea>Erk123
+    </label>
+    <br>
+    <label>
+        <textarea 
+            data-beatbox-instr="bigbass" data-beatbox-sound="bass1/18090__daven__15-sb-bass-hit-c.wav"
+            >0,0,0,.5</textarea>Big Bass
+    </label>
+    <br>
+    <label>
+        <textarea 
+            data-beatbox-instr="phaser" data-beatbox-sound="bass1/18094__daven__19-sb-bass-hit-f.wav"
+            >0,0,0,0.01</textarea>Phaser
+    </label>
+
+    </div>
+
+<script>
+myBeatBox = function () {
+    
+    var con = new (window.AudioContext || window.webkitAudioContext)();
+
+    var step = -1;
+    var interval = 0.125;
+
+    var instruments = [];
+    var rythmSounds = {};
+    var bankSounds = {};
+
+    // Sounds downloaded from the project : https://github.com/tidalcycles/Dirt-Samples
+    var path_sounds = '../sounds/';
+
+    var beatboxes = document.querySelectorAll('[data-beatbox-instr]');
+    
+    for (var i=0, imax=beatboxes.length; i<imax ; i++) {
+        beatboxes[i].addEventListener('keyup', updateInstrument, false);
+        
+        var soundname =  beatboxes[i].getAttribute('data-beatbox-instr');
+
+        instruments.push(soundname);
+
+        rythmSounds[soundname] = beatboxes[i].value.split(',');
+            
+        var tmpsound = beatboxes[i].getAttribute('data-beatbox-sound');
+        var soundfile = path_sounds + tmpsound;
+        
+        loadSample(soundfile, soundname, function (buffer){
+            console.log('load ', soundfile, soundname);
+            //snare = buffer;
+        });  
+    }
+
+    function updateInstrument(evt) {
+        console.log(evt);
+        console.log(this);
+        var tmpinst = this.dataset['beatboxInstr'];
+        console.log(tmpinst);
+        console.log(this.value.split(','));
+        rythmSounds[tmpinst] = this.value.split(',');
+    }
+
+    function playSound(buffer, time){
+        var player = con.createBufferSource();
+        player.buffer = buffer;
+        player.loop = false;
+        player.connect(con.destination);  
+        player.start(time); 
+    }
+
+    var tempo = 180; // BPM (beats per minute)
+    var quarterNoteTime = 60 / tempo; // 0.5
+    var alarm_clock = false;  // réveil
+
+    setInterval(function(){
+        var now = con.currentTime;
+        var max_future_time = now + (quarterNoteTime * 1.5);
+        if (alarm_clock && alarm_clock > now) { // already scheduled up to this point
+            now = alarm_clock;
+        }
+        while (now <= max_future_time){        
+            for (var xi=0, ximax = instruments.length; xi < ximax; xi++) {
+                var sound_seq = rythmSounds[instruments[xi]];
+                var note = sound_seq[step % sound_seq.length]; 
+                if (note == 1){
+                    playSound(bankSounds[instruments[xi]], now);
+                } else {
+                    if (note && note > Math.random()){
+                        playSound(bankSounds[instruments[xi]], now);
+                    }
+                }
+            }
+            step +=1; 
+            now += interval;
+        }
+        alarm_clock = now;
+    }, quarterNoteTime * 1000);
+
+
+    function loadSample(url, soundname, callback){
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.responseType = 'arraybuffer';
+        request.onload = function(){
+            var audioData = request.response;
+            con.decodeAudioData(audioData, function(buffer) {
+                bankSounds[soundname] = buffer; 
+            });
+        };
+        request.send();
+    }
+};
+
+document.addEventListener("DOMContentLoaded", myBeatBox, false);
+
+</script>
+    </body>
+</html>
