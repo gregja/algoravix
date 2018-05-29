@@ -51,6 +51,8 @@ You can mix different sequences with 4, 5, 6 notes, and more, for example :
 You can change sounds, modify the algorithm about random values, or experiment
 in other directions.
 
-Play, modify the code (if you want), and Have fun !!!
+You can test the algorave3.html online here :
+https://thimbleprojects.org/gregja/493414
 
+Play, modify the code (if you want), and Have fun !!!
 
