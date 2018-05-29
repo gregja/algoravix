@@ -19,6 +19,7 @@ https://github.com/tidalcycles/Dirt-Samples
 
 If you don't want to download the sound files locally, you can use this path in
 your Javascript code :
+
   var path_sounds = "https://cdn.rawgit.com/tidalcycles/Dirt-Samples/a7f0b277/"
 
 
