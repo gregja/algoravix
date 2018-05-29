@@ -56,3 +56,8 @@ https://thimbleprojects.org/gregja/493414
 
 Play, modify the code (if you want), and Have fun !!!
 
+
+
+This module is powered by the CreativeCodeParis Meetup :
+https://www.meetup.com/fr-FR/CreativeCodeParis/
+
