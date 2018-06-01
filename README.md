@@ -13,7 +13,7 @@ course :
 https://www.futurelearn.com/courses/electronic-music-tools
 
 
-The sounds used here have been downloaded on that project : 
+The sounds used here have been downloaded from that project : 
 
 https://github.com/tidalcycles/Dirt-Samples
 
