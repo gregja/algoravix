@@ -3,7 +3,7 @@ Experimental algorave project to play with the WebAudio API
 
 ---
 
-Three examples of algorave machines, to play and have fun with electronic sounds
+4 examples of algorave machines, to play and have fun with electronic sounds
 and rythms.
 
 The exemples are inspired by a more simple algorave machine proposed by
@@ -13,20 +13,20 @@ course :
 https://www.futurelearn.com/courses/electronic-music-tools
 
 
-The sounds used here have been downloaded from that project :
+Some sounds used here come from this project :
 
 https://github.com/tidalcycles/Dirt-Samples
 
-If you don't want to download the sound files locally, you can use this path in
-your Javascript code :
+and others sounds come from my project below :
 
-  var path_sounds = "https://cdn.rawgit.com/tidalcycles/Dirt-Samples/a7f0b277/"
+https://github.com/gregja/sounds4creativeProjects/
 
 
 Three examples are proposed here with differect possibilities :
 - algorave1.html : the simplest example (closer to the Matthew Yee-King example)
 - algorave2.html : intermediate level
 - algorave3.html : more sounds, with "mute" checkbox for each sound
+- algorave4.html : similar to algorave3, with additional sounds, and a general "mute" checkbox 
 
 
 Just a small explanation about the values :
@@ -52,12 +52,14 @@ You can mix different sequences with 4, 5, 6 notes, and more, for example :
 You can change sounds, modify the algorithm about random values, or experiment
 in other directions.
 
-You can test the algorave3.html online here :
-https://codepen.io/gregja/full/ROKeNN
+You can test the algorave4 machine online here :
+
+http://ledefrichoir.com/labo/GregsLab/other_projects/algoravix/algorave4.html
 
 Play, modify the code (if you want), and Have fun !!!
 
 
-
 This module is powered by the CreativeCodeParis Meetup :
+
 https://www.meetup.com/fr-FR/CreativeCodeParis/
+
